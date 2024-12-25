@@ -6,6 +6,8 @@ import ProjectHighlights from './components/ProjectHighlights';
 import ProjectsPage from './components/ProjectsPage';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
+import LoginForm from './components/auth/LoginForm';
+import RegisterForm from './components/auth/RegisterForm';
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
             </>
           } />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
         </Routes>
         <Footer />
       </div>
