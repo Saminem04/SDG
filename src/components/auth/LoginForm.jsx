@@ -15,7 +15,8 @@ export default function LoginForm() {
     e.preventDefault();
     const user = validateLogin(loginData.login_id, loginData.password);
     if (user) {
-      navigate('/projects');
+      localStorage.setItem('currentNGO', user.login_id);
+      navigate('/dashboard');
     } else {
       setError('Invalid login credentials');
     }
