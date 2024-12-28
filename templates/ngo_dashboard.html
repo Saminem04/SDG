@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Verification Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .content {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 25%;
+            background-color: #f4f4f4;
+            overflow-y: auto;
+            border-right: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #fff;
+        }
+
+        .sidebar li:hover {
+            background-color: #e0e0e0;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h3 {
+            margin-bottom: 10px;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        .card .buttons {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .card button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .card button.approve {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .card button.reject {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const sidebar = document.querySelector(".sidebar ul");
+            const mainContent = document.querySelector(".main-content");
+
+            // Fetch NGO list from the backend
+            const response = await fetch('/api/ngos');
+            const ngos = await response.json();
+
+            ngos.forEach(ngo => {
+                const li = document.createElement("li");
+                li.textContent = ngo.name;
+                li.addEventListener("click", async () => {
+                    const ngoDetails = `
+                        <div class="section">
+                            <h3>${ngo.name}</h3>
+                            <div class="card">
+                                <h4>Verification Certificate</h4>
+                                <div class="placeholder" style="width: 100%; height: 150px; background-color: #f9f9f9; border: 1px dashed #ccc;"></div>
+                                <div class="buttons">
+                                    <button class="approve" onclick="approveNGO(${ngo.id})">Approve</button>
+                                    <button class="reject" onclick="rejectNGO(${ngo.id})">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="section">
+                            <h4>Activity Details Report</h4>
+                            <div class="card">
+                                <div class="placeholder" style="width: 100%; height: 150px; background-color: #f9f9f9; border: 1px dashed #ccc;"></div>
+                            </div>
+                        </div>
+                    `;
+                    mainContent.innerHTML = ngoDetails;
+                });
+                sidebar.appendChild(li);
+            });
+        });
+
+        async function approveNGO(id) {
+            const response = await fetch(`/api/ngos/${id}/approve`, { method: 'POST' });
+            const result = await response.json();
+            alert(result.message);
+        }
+
+        async function rejectNGO(id) {
+            const response = await fetch(`/api/ngos/${id}/reject`, { method: 'POST' });
+            const result = await response.json();
+            alert(result.message);
+        }
+    </script>
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <h1 style="text-align: center; padding: 10px; border-bottom: 1px solid #ddd;">NGO Verification Dashboard</h1>
+        </header>
+        <div class="content">
+            <aside class="sidebar">
+                <h2>NGO Applications</h2>
+                <ul>
+                    <!-- NGO List dynamically populated -->
+                </ul>
+            </aside>
+            <main class="main-content">
+                <p>Select an NGO from the list to view its details.</p>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

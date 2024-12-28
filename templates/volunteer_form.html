@@ -1,0 +1,48 @@
+<!-- volunteer_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Registration</title>
+</head>
+<body>
+    <h1>Register as a Volunteer</h1>
+    <form action="/volunteer" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required><br>
+
+        <label for="expertise">Expertise (comma-separated):</label>
+        <input type="text" id="expertise" name="expertise" required><br>
+
+        <label for="availability">Availability:</label>
+        <select id="availability" name="availability">
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+        </select><br>
+
+        <label for="working_in_organisation">Currently working in an organisation?</label>
+        <input type="checkbox" id="working_in_organisation" name="working_in_organisation"><br>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required><br>
+
+        <label for="field_of_interest">Field of Interest:</label>
+        <input type="text" id="field_of_interest" name="field_of_interest" required><br>
+
+        <label for="past_experience">Past Experience:</label><br>
+        <textarea id="past_experience" name="past_experience"></textarea><br>
+
+        <label for="certifications">Certifications (comma-separated):</label>
+        <input type="text" id="certifications" name="certifications"><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
